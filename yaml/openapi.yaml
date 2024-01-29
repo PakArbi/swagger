@@ -141,7 +141,7 @@ components:
     Auth:
       type: object
       properties:
-        email:
+        npm:
           type: string
           example: 1214000@std.ulbi.ac.id
         passwordhash:
