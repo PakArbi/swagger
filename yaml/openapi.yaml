@@ -17,6 +17,30 @@ servers:
   - url: https://asia-southeast2-pakarbi.cloudfunctions.net
 tags:
 paths:
+  /registerpakarbi:
+    post:
+      tags:
+        - Register User
+      summary: Register User Account
+      description: Add new User data
+      operationId: create User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUser" # Gunakan skema yang sesuai di sini
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CreateUser"
+        "400":
+          description: Invalid input or request body
+
   /loginpakarbinpm:
     post:
       tags:
@@ -39,6 +63,50 @@ paths:
         "405":
           description: Invalid input
 
+  /loginpakarbiemail:
+    post:
+      tags:
+        - Login User Email
+      summary: Login get Token
+      description: Login and Get User Token
+      operationId: authService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "405":
+          description: Invalid input
+  
+  /loginpakarbiadmin:
+    post:
+      tags:
+        - Login Admin
+      summary: Login get Token
+      description: Login and Get User Token
+      operationId: authService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthEmail"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "405":
+          description: Invalid input
+
   /getallparkiran:
     get:
       tags:
@@ -48,20 +116,22 @@ paths:
       operationId: GetParkiran
       responses:
         "200":
-          description: successful operation
+          description: successful operation parkiran
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/GetDataParkiran"
+                  $ref: "#/components/schemas/CreateParkiran"
         "400":
           description: Invalid status value
+      security:
+        - Login: []
 
   /insertparkirannpm:
     post:
       tags:
-        - Parkiran
+        - Parkiran NPM
       summary: Create Parkiran Data
       description: Add new Parkiran data
       operationId: create Parkiran
@@ -87,7 +157,7 @@ paths:
   /updateparkirannpm:
     put:
       tags:
-        - Parkiran
+        - Parkiran NPM
       summary: Updated Parkiran Data berdasarkan nomor id
       description: Updated Parkiran data
       operationId: Updated Parkiran
@@ -113,7 +183,7 @@ paths:
   /deleteparkirannpm:
     delete:
       tags:
-        - Parkiran
+        - Parkiran NPM
       summary: delete Parkiran Data berdasarkan nomor id
       description: delete Parkiran data
       operationId: delete Parkiran
@@ -136,12 +206,100 @@ paths:
       security:
         - Login: []
 
+  /insertparkiranemail:
+    post:
+      tags:
+        - Parkiran Email
+      summary: Create Parkiran Data
+      description: Add new Parkiran data
+      operationId: create Parkiran
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateParkiran" # Gunakan skema yang sesuai di sini
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CreateParkiran"
+        "400":
+          description: Invalid input or request body
+      security:
+        - Login: []
+
+  /updateparkiranemail:
+    put:
+      tags:
+        - Parkiran Email
+      summary: Updated Parkiran Data berdasarkan nomor id
+      description: Updated Parkiran data
+      operationId: Updated Parkiran
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parkiran" # Gunakan skema yang sesuai di sini
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CreateParkiran"
+        "400":
+          description: Invalid input or request body
+      security:
+        - Login: []
+
+  /deleteparkiranemail:
+    delete:
+      tags:
+        - Parkiran Email
+      summary: delete Parkiran Data berdasarkan nomor id
+      description: delete Parkiran data
+      operationId: delete Parkiran
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteParkiran" # Gunakan skema yang sesuai di sini
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CreateParkiran"
+        "400":
+          description: Invalid input or request body
+      security:
+        - Login: []  
+
 components:
   schemas:
     Auth:
       type: object
       properties:
         npm:
+          type: string
+          example: 1214000
+        passwordhash:
+          type: string
+          example: ulbipass
+
+    AuthEmail:
+      type: object
+      properties:
+        email:
           type: string
           example: 1214000@std.ulbi.ac.id
         passwordhash:
@@ -195,6 +353,31 @@ components:
           type: string
           example: testjamkeluar
 
+    CreateUser:
+      type: object
+      properties:
+        usernameid:
+          type: string
+          example: D4TI1214020
+        username:
+          type: string
+          example: Farhan Rizki Maulana
+        npm:
+          type: string
+          example: 1214020
+        password:
+          type: string
+          example: olkiu567
+        passwordhash:
+          type: string
+          example: olkiu567
+        email:
+          type: string
+          example: 1214020@std.ulbi.ac.id
+        role:
+          type: string
+          example: user
+
     CreateParkiran:
       type: object
       properties:
@@ -236,7 +419,7 @@ components:
           type: string
           example: D41214020
 
-  parkiran:
+    parkiran:
       type: object
       properties:
         parkiranid:
@@ -270,21 +453,21 @@ components:
           type: string
           example: 16:00
 
-    # AuthReq:
-    #   description: Request Authentication
-    #   content:
-    #     application/json:
-    #       schema:
-    #         $ref: "#/components/schemas/Auth"
+    AuthReq:
+      description: Request Authentication
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Auth"
 
-    # UserArray:
-    #   description: List of user object
-    #   content:
-    #     application/json:
-    #       schema:
-    #         type: array
-    #         items:
-    #           $ref: "#/components/schemas/AuthResponse"
+    AdminArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AuthResponse"
   securitySchemes:
     Login:
       type: apiKey
