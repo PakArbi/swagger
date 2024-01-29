@@ -1,0 +1,292 @@
+openapi: 3.0.3
+info:
+  title: DOKUMEN API PakArbi - OpenAPI 3.0
+  description: >-
+    Dokumentasi API untuk Aplikasi Parkir QR Code ULBI (PakArbi)
+  termsOfService: https://pakarbi.vaidiq.cloud/swagger/
+  contact:
+    email: farhanrizki101010@gmail.com
+  license:
+    name: PakArbi Backend
+    url: https://pkg.go.dev/github.com/pakarbi/pakarbibackend
+  version: 0.1.3
+externalDocs:
+  description: Repo GCF
+  url: https://pkg.go.dev/github.com/pakarbi/pakarbibackend
+servers:
+  - url: https://asia-southeast2-pakarbi.cloudfunctions.net
+tags:
+paths:
+  /loginpakarbinpm:
+    post:
+      tags:
+        - Login User NPM
+      summary: Login get Token
+      description: Login and Get User Token
+      operationId: authService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "405":
+          description: Invalid input
+
+  /getallparkiran:
+    get:
+      tags:
+        - Data Parkiran
+      summary: Get Data Parkiran
+      description: List Data Parkiran
+      operationId: GetParkiran
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetDataParkiran"
+        "400":
+          description: Invalid status value
+
+  /insertparkirannpm:
+    post:
+      tags:
+        - Parkiran
+      summary: Create Parkiran Data
+      description: Add new Parkiran data
+      operationId: create Parkiran
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateParkiran" # Gunakan skema yang sesuai di sini
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CreateParkiran"
+        "400":
+          description: Invalid input or request body
+      security:
+        - Login: []
+
+  /updateparkirannpm:
+    put:
+      tags:
+        - Parkiran
+      summary: Updated Parkiran Data berdasarkan nomor id
+      description: Updated Parkiran data
+      operationId: Updated Parkiran
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/parkiran" # Gunakan skema yang sesuai di sini
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CreateParkiran"
+        "400":
+          description: Invalid input or request body
+      security:
+        - Login: []
+
+  /deleteparkirannpm:
+    delete:
+      tags:
+        - Parkiran
+      summary: delete Parkiran Data berdasarkan nomor id
+      description: delete Parkiran data
+      operationId: delete Parkiran
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteParkiran" # Gunakan skema yang sesuai di sini
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CreateParkiran"
+        "400":
+          description: Invalid input or request body
+      security:
+        - Login: []
+
+components:
+  schemas:
+    Auth:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 1214000@std.ulbi.ac.id
+        passwordhash:
+          type: string
+          example: ulbipass
+
+    AuthResponse:
+      type: object
+      properties:
+        status:
+          type: bool
+          example: false
+        message:
+          type: string
+          example: Selamat Datang User
+        token:
+          type: string
+          example: alagabres
+
+    GetDataParkiran:
+      type: object
+      properties:
+        parkiranid:
+          type: string
+          example: testparkiranid
+        nama:
+          type: string
+          example: testnama
+        npm:
+          type: string
+          example: testnpm
+        prodi:
+          type: string
+          example: testprodi
+        namakendaraan:
+          type: string
+          example: testnamakendaraan
+        nomorkendaraan:
+          type: string
+          example: testnomorkendaraan
+        jeniskendaraan:
+          type: string
+          example: testjeniskendaraan
+        status:
+          type: string
+          example: teststatus
+        jammasuk:
+          type: string
+          example: testjammasuk
+        jamkeluar:
+          type: string
+          example: testjamkeluar
+
+    CreateParkiran:
+      type: object
+      properties:
+        parkiranid:
+          type: string
+          example: D41214020
+        nama:
+          type: string
+          example: Farhan Rizki Maulana
+        npm:
+          type: string
+          example: 1214020
+        prodi:
+          type: string
+          example: D4 Teknik Informatika
+        namakendaraan:
+          type: string
+          example: Supra X 125
+        nomorkendaraan:
+          type: string
+          example: F 1234 BGR
+        jeniskendaraan:
+          type: string
+          example: Motor
+        status:
+          type: string
+          example: Mahasiswa Aktif
+        jammasuk:
+          type: string
+          example: 08:00
+        jamkeluar:
+          type: string
+          example: 15:00
+
+    DeleteParkiran:
+      type: object
+      properties:
+        parkiranid:
+          type: string
+          example: D41214020
+
+  parkiran:
+      type: object
+      properties:
+        parkiranid:
+          type: string
+          example: D41214020
+        nama:
+          type: string
+          example: Farhan Rizki Maulana
+        npm:
+          type: string
+          example: 1214020
+        prodi:
+          type: string
+          example: D4 Teknik Informatika
+        namakendaraan:
+          type: string
+          example: Supra X 125
+        nomorkendaraan:
+          type: string
+          example: F 1234 BGR
+        jeniskendaraan:
+          type: string
+          example: Motor
+        status:
+          type: string
+          example: Mahasiswa Aktif
+        jammasuk:
+          type: string
+          example: 12:00
+        jamkeluar:
+          type: string
+          example: 16:00
+
+    AuthReq:
+      description: Request Authentication
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Auth"
+
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AuthResponse"
+  securitySchemes:
+    Login:
+      type: apiKey
+      name: Login
+      in: header
