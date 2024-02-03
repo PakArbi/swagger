@@ -110,7 +110,7 @@ paths:
   /getallparkiran:
     get:
       tags:
-        - Data Parkiran
+        - Get Data Parkiran
       summary: Get All Data Parkiran
       description: List Data Parkiran
       operationId: GetParkiran
@@ -131,7 +131,7 @@ paths:
   /getonedataparkiran:
     get:
       tags:
-        - Data Parkiran
+        - Get Data Parkiran
       summary: Get By ID Data Parkiran
       description: List One Data Wisata
       operationId: getParkiranById
@@ -153,10 +153,10 @@ paths:
         "400":
           description: Invalid status value
 
-  /insertparkirannpm:
+  /insertdataparkiran:
     post:
       tags:
-        - Parkiran NPM
+        - CRUD Data Parkiran
       summary: Create Parkiran Data
       description: Add new Parkiran data
       operationId: create Parkiran
@@ -179,10 +179,10 @@ paths:
       security:
         - Login: []
 
-  /updateparkirannpm:
+  /updatedataparkiran:
     put:
       tags:
-        - Parkiran NPM
+        - CRUD Data Parkiran
       summary: Updated Parkiran Data berdasarkan nomor id
       description: Updated Parkiran data
       operationId: Updated Parkiran
@@ -205,88 +205,10 @@ paths:
       security:
         - Login: []
 
-  /deleteparkirannpm:
+  /deletedataparkiran:
     delete:
       tags:
-        - Parkiran NPM
-      summary: delete Parkiran Data berdasarkan nomor id
-      description: delete Parkiran data
-      operationId: delete Parkiran
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/DeleteParkiran" # Gunakan skema yang sesuai di sini
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: "#/components/schemas/CreateParkiran"
-        "400":
-          description: Invalid input or request body
-      security:
-        - Login: []
-
-  /insertparkiranemail:
-    post:
-      tags:
-        - Parkiran Email
-      summary: Create Parkiran Data
-      description: Add new Parkiran data
-      operationId: create Parkiran
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateParkiran" # Gunakan skema yang sesuai di sini
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: "#/components/schemas/CreateParkiran"
-        "400":
-          description: Invalid input or request body
-      security:
-        - Login: []
-
-  /updateparkiranemail:
-    put:
-      tags:
-        - Parkiran Email
-      summary: Updated Parkiran Data berdasarkan nomor id
-      description: Updated Parkiran data
-      operationId: Updated Parkiran
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/parkiran" # Gunakan skema yang sesuai di sini
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: "#/components/schemas/CreateParkiran"
-        "400":
-          description: Invalid input or request body
-      security:
-        - Login: []
-
-  /deleteparkiranemail:
-    delete:
-      tags:
-        - Parkiran Email
+        - CRUD Data Parkiran
       summary: delete Parkiran Data berdasarkan nomor id
       description: delete Parkiran data
       operationId: delete Parkiran
