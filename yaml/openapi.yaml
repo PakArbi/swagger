@@ -17,6 +17,28 @@ servers:
   - url: https://asia-southeast2-pakarbi.cloudfunctions.net
 tags:
 paths:
+  /loginpakarbiadmin:
+    post:
+      tags:
+        - Login Admin
+      summary: Login Admin
+      description: Login and Get User Token
+      operationId: authService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthEmail"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "405":
+          description: Invalid input
+
   /registerpakarbi:
     post:
       tags:
@@ -44,8 +66,8 @@ paths:
   /loginpakarbinpm:
     post:
       tags:
-        - Login User NPM
-      summary: Login get Token
+        - Login User
+      summary: Login User NPM
       description: Login and Get User Token
       operationId: authService
       requestBody:
@@ -66,9 +88,9 @@ paths:
   /loginpakarbiemail:
     post:
       tags:
-        - Login User Email
-      summary: Login get Token
-      description: Login and Get User Token
+        - Login User
+      summary: Login User Email
+      description: Login and Get User
       operationId: authService
       requestBody:
         content:
@@ -84,34 +106,12 @@ paths:
                 $ref: "#/components/schemas/AuthResponse"
         "405":
           description: Invalid input
-  
-  /loginpakarbiadmin:
-    post:
-      tags:
-        - Login Admin
-      summary: Login get Token
-      description: Login and Get User Token
-      operationId: authService
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AuthEmail"
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthResponse"
-        "405":
-          description: Invalid input
 
   /getallparkiran:
     get:
       tags:
         - Data Parkiran
-      summary: Get Data Parkiran
+      summary: Get All Data Parkiran
       description: List Data Parkiran
       operationId: GetParkiran
       responses:
@@ -127,6 +127,31 @@ paths:
           description: Invalid status value
       security:
         - Login: []
+
+  /getonedataparkiran:
+    get:
+      tags:
+        - Data Parkiran
+      summary: Get By ID Data Parkiran
+      description: List One Data Wisata
+      operationId: getWisataById
+      parameters:
+        - name: _id
+          in: query
+          schema:
+            type: string
+          description: ID of Wisata
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ParkiranById"
+        "400":
+          description: Invalid status value
 
   /insertparkirannpm:
     post:
@@ -282,7 +307,7 @@ paths:
         "400":
           description: Invalid input or request body
       security:
-        - Login: []  
+        - Login: []
 
 components:
   schemas:
@@ -411,6 +436,13 @@ components:
         jamkeluar:
           type: string
           example: 15:00
+
+    ParkiranByID:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 65b8277dd73e368ee1def9e4
 
     DeleteParkiran:
       type: object
