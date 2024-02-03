@@ -134,13 +134,13 @@ paths:
         - Data Parkiran
       summary: Get By ID Data Parkiran
       description: List One Data Wisata
-      operationId: getWisataById
+      operationId: getParkiranById
       parameters:
         - name: _id
           in: query
           schema:
             type: string
-          description: ID of Wisata
+          description: ID of Parkiran
       responses:
         "200":
           description: successful operation
@@ -149,7 +149,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ParkiranById"
+                  $ref: "#/components/schemas/ParkiranByID"
         "400":
           description: Invalid status value
 
